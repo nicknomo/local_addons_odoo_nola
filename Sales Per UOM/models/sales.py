@@ -226,11 +226,6 @@ class NewSaleOrder(models.Model):
                 pricefactor = newuom.factor
 
             if (pricefactor == 0):
-                self.quoteuomprice = 'Div By 0'
-                return {}
-
-            if (pricefactor == 0):
-                self.quoteuomprice = 'Div By 0'
                 return {}
 
             convfactor = float(float(salefactor) / float(pricefactor))
@@ -263,11 +258,6 @@ class NewSaleOrder(models.Model):
                 pricefactor = newuom.factor
 
             if (pricefactor == 0):
-                self.quoteuomprice = 'Div By 0'
-                return {}
-
-            if (pricefactor == 0):
-                self.quoteuomprice = 'Div By 0'
                 return {}
 
             convfactor = float(float(salefactor) / float(pricefactor))
@@ -284,8 +274,10 @@ class NewSaleOrder(models.Model):
 
     @api.multi
     def newlinecreate(self):
-
         if not (self.quoteproduct and self.quotesaleqty and self.quoteproductuom and self.quoteactualprice):
+            return
+
+        if (self.quotesaleqty < 1 ) or (self.quoteactualprice < .01):
             return
 
         if not (self.quoteproduct.description):
